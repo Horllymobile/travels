@@ -1,0 +1,7 @@
+{
+  "name": "t-travel",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

@@ -1,0 +1,39 @@
+.bodyBg {
+  --background: url(./../../../assets/air-travellers.jpg) 0 0/100% 100%
+    no-repeat;
+  // --background: #5c5acf;
+  border-radius: 8px !important;
+}
+
+.card {
+  --background: transparent !important;
+  margin-top: 20px;
+}
+
+.signin-btn {
+  --background: #000;
+}
+
+a {
+  color: #fff;
+}
+
+ion-input {
+}
+
+.input {
+  border-radius: 8px !important;
+}
+.item {
+  --background: #fff !important;
+}
+
+@media screen and (min-width: 1200px) {
+  .card {
+    // --background: #fff !important;
+    margin-top: 7em;
+  }
+  .buttons {
+    margin: 10px auto !important;
+  }
+}

@@ -1,0 +1,48 @@
+<ion-toolbar class="tool_bar">
+  <ion-title>Travels</ion-title>
+  <div slot="end" class="ion-padding">
+    <ion-avatar class="avatar" *ngIf="user">
+      <ion-img [src]="user.photoURL" class="avatar__image"></ion-img>
+    </ion-avatar>
+  </div>
+</ion-toolbar>
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col sizeSm="6" offsetSm="3">
+        <ion-card>
+          <ion-img class="ion-no-padding" src="./../../../../assets/barcelona.jpg"></ion-img>
+          <ion-card-content>
+            <ion-card-title slot="start">Barcelona, Spain</ion-card-title>
+            <p class="ion-text-right"><em slot="end">Jul 12 2012</em></p>
+            <ion-card-subtitle>{{ '86.55' | currency }}</ion-card-subtitle>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col sizeSm="3" sizeMd="6" sizeLg="4">
+        <ion-card>
+          <ion-img src="../../../../assets/paris.jpg"></ion-img>
+          <ion-card-content>
+            <ion-card-title class="card-title">Paris, France</ion-card-title>
+            <p class=""><em slot="end">Mar 12 2015</em></p>
+            <ion-card-subtitle>{{ '106.55' | currency }}</ion-card-subtitle>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <ion-col sizeSm="3" sizeMd="6" sizeLg="4">
+        <ion-card>
+          <ion-img src="../../../../assets/munich.jpg"></ion-img>
+          <ion-card-content>
+            <ion-card-title class="card-title"> Munich, Germany</ion-card-title>
+            <p class=""><em slot="end">Sep 12 2021</em></p>
+            <ion-card-subtitle>{{ '106.55' | currency }}</ion-card-subtitle>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

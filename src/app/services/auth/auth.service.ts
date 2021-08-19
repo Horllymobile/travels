@@ -5,6 +5,8 @@ import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firest
 import firebase from 'firebase/app';
 import { Router } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
+
 
 
 @Injectable({
@@ -12,8 +14,7 @@ import { LoadingController } from '@ionic/angular';
 })
 export class AuthService {
 
-  userData: User;
-  auth = firebase.auth;
+  userData: any;
 
 
   // Returns true when user is looged in and email is verified
@@ -22,12 +23,19 @@ export class AuthService {
     return (user !== null && user.emailVerified !== false) ? true : false;
   }
 
+  get currentUser(){
+    const user = JSON.parse(localStorage.getItem('user'));
+    // this.userData = user.providerData;
+    return user.providerData;
+  }
+
   constructor(
     private angularFirestore: AngularFirestore,
     private angularFireAuth: AngularFireAuth,
     private router: Router,
     private ngZone: NgZone,
-    private loadingController: LoadingController
+    private loadingController: LoadingController,
+    private alertController: AlertController
   ) {
 
     this.angularFireAuth.authState.subscribe(user => {
@@ -49,8 +57,15 @@ export class AuthService {
         this.router.navigateByUrl('/dashboard');
       });
       this.setUserData(result.user);
-     }).catch((error) => {
-      window.alert(error.message);
+     }).catch(async (error) => {
+      // window.alert(error.message);
+      const alert = await this.alertController.create({
+        header: 'Error',
+        message: error.message,
+        buttons: ['OK']
+      });
+
+      await alert.present();
      });
    }
 
@@ -70,7 +85,7 @@ export class AuthService {
   }
 
   // Reset Forggot password
-  forgotPassword(passwordResetEmail) {
+  forgotPassword(passwordResetEmail: string) {
     return this.angularFireAuth.sendPasswordResetEmail(passwordResetEmail)
     .then(() => {
       window.alert('Password reset email sent, check your inbox.');
@@ -80,7 +95,7 @@ export class AuthService {
   }
 
   googleAuth(){
-    return this.authLogin(new this.auth.GoogleAuthProvider());
+    return this.authLogin(new firebase.auth.GoogleAuthProvider());
   }
 
   authLogin(provider){

@@ -6,7 +6,7 @@
       <ion-col size-sm="6" offset-sm="3">
         <ion-card class="card">
           <ion-card-header>
-            <ion-card-title class="ion-text-center ion-margin-top" >SIGN UP</ion-card-title>
+            <ion-card-title class="ion-text-center ion-margin-top">SIGN UP</ion-card-title>
           </ion-card-header>
           <ion-card-content class="ion-margin-top">
             <form #signUpForm="ngForm">
@@ -14,18 +14,20 @@
                 <ion-input type="email" placeholder="Email" name="email" ngModel></ion-input>
               </ion-item>
               <ion-item class="ion-margin-top">
-                <ion-input [type]="iShowPassword ? 'text' : 'password'" name="password" ngModel placeholder="Password"></ion-input>
+                <ion-input [type]="iShowPassword ? 'text' : 'password'" name="password" ngModel placeholder="Password">
+                </ion-input>
                 <ion-icon name="eye-outline" (click)="showPassword()" *ngIf="iShowPassword"></ion-icon>
                 <ion-icon name="eye-off-outline" (click)="showPassword()" *ngIf="!iShowPassword"></ion-icon>
               </ion-item>
-              <ion-button class="ion-margin-top" size="" expand="block" (click)="signUp(signUpForm.value)">Sign Up</ion-button>
+              <ion-button class="ion-margin-top" size="" expand="block" (click)="signUp(signUpForm.value)">Sign Up
+              </ion-button>
             </form>
-            <p class="ion-text-center ion-padding-top" >Don't have account <a routerLink="/signin">Sign in</a></p>
+            <p class="ion-text-center ion-padding-top">Don't have account <a routerLink="/signin">Sign in</a></p>
           </ion-card-content>
         </ion-card>
       </ion-col>
     </ion-row>
-    <ion-row>
+    <!-- <ion-row>
       <ion-col size-sm="6" offset-sm="3" class="text-center">
         <ion-button color="danger" size="large" fill="outline" class="ion-margin-top" expand="block">
           <ion-icon name="logo-google" slot="end"></ion-icon>
@@ -37,7 +39,7 @@
           Sign up with
         </ion-button>
       </ion-col>
-    </ion-row>
+    </ion-row> -->
   </ion-grid>
 
 </ion-content>

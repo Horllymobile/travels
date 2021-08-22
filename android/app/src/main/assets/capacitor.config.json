@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "t-travel",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}

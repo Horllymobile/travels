@@ -37,7 +37,11 @@ const routes: Routes = [
   },
   {
     path: 'profile',
-    loadChildren: () => import('./dashboard/profile/profile.module').then( m => m.ProfilePageModule)
+    loadChildren: () => import('./pages/dashboard/profile/profile.module').then(m => m.ProfilePageModule)
+  },
+  {
+    path: 'new-travel',
+    loadChildren: () => import('./pages/dashboard/new-travel/new-travel.module').then(m => m.NewTravelPageModule)
   },
 ];
 

@@ -3,6 +3,7 @@ import { AuthService } from './../../../services/auth/auth.service';
 import { DataService } from './../../../services/data/data.service';
 import { PopoverController } from '@ionic/angular';
 import { PopoverComponent } from './../../../components/popover/popover.component';
+import {AngularFirestoreDocument} from "@angular/fire/firestore";
 @Component({
   selector: 'app-travels',
   templateUrl: './travels.page.html',
@@ -14,21 +15,23 @@ export class TravelsPage implements OnInit {
   constructor(
     private authService: AuthService,
     private dataService: DataService,
-    private popoverControler: PopoverController
+    private popoverController: PopoverController
   ) { }
 
   ngOnInit() {
     setTimeout(() => {
-      this.user = this.authService.currentUser[1];
+      this.user = this.authService.currentUser[1] ? this.authService.currentUser[1] : this.authService.currentUser[0];
+      console.log(this.user);
       this.dataService.getTravels(this.user.uid).valueChanges()
       .subscribe(data => {
         this.travels = data;
+        console.log(this.travels);
       }, err => console.log(err));
-    }, 500);
+    }, 100);
   }
 
   async popover(ev: any) {
-    const popover = await this.popoverControler.create({
+    const popover = await this.popoverController.create({
       component: PopoverComponent,
       cssClass: '',
       event: ev,

@@ -6,6 +6,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { LoadingController } from '@ionic/angular';
 import { AuthService } from '../../services/auth/auth.service';
 import { DOCUMENT } from '@angular/common';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-signin',
@@ -15,12 +16,15 @@ import { DOCUMENT } from '@angular/common';
 })
 export class SigninPage implements OnInit, OnDestroy {
   iShowPassword = false;
+  loading = true;
+  errorMessage: string;
   loginForm: FormGroup;
   constructor(
     private loadingController: LoadingController,
     private authService: AuthService,
     private fb: FormBuilder,
-    @Inject(DOCUMENT) private _document
+    @Inject(DOCUMENT) private _document,
+    private router: Router
   ) {
 
     this.loginForm = this.fb.group({
@@ -49,15 +53,19 @@ export class SigninPage implements OnInit, OnDestroy {
     this.authService.googleAuth();
   }
 
-  signIn(){
-    console.log(this.formValues);
-    this.authService.signIn(this.formValues.userEmail, this.formValues.userPassword)
-    .then(() => {
-      // this.loginForm.reset();
-    })
-    .catch(err => {
-      console.log(err);
-    });
+  async signIn(){
+    this.loading = true;
+    try{
+      const result:any = await  this.authService.
+      signIn(this.loginForm.get('email').value, this.loginForm.get('password').value);
+      if(result){
+        await this.router.navigateByUrl('/dashboard');
+      }
+    }catch (error){
+      this.loading = false;
+      this.errorMessage = error.message;
+      console.log(this.errorMessage);
+    }
   }
 
   async presentLoadingWithOptions() {

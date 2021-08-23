@@ -2,31 +2,28 @@
   <ion-grid>
     <ion-row>
       <ion-col sizeSm="6" offsetSm="3">
-        <div class="displayTable">
-          <div class="displayTableCell">
+       <ion-card class="card">
+         <ion-card-header>
+           <ion-card-title><h3>Thank You for Registering</h3></ion-card-title>
+         </ion-card-header>
+         <ion-card-content>
+           <ion-card-subtitle>
+             <p class="text-center">We have sent a confirmation email to <strong>{{user?.email}}</strong>.</p>
+             <p class="text-center">Please check your email and click on the link to verfiy your email address.</p>
+           </ion-card-subtitle>
 
-            <div class="authBlock">
-              <h3>Thank You for Registering</h3>
+           <!-- Calling SendVerificationMail() method using authService Api -->
+           <ion-button color="success" (click)="sendVerificationEmail()">
+             <ion-icon name="refresh-outline" slot="start"></ion-icon>
+             Resend
+           </ion-button>
 
-              <div class="formGroup">
-                <p class="text-center">We have sent a confirmation email to <strong>{{user?.email}}</strong>.</p>
-                <p class="text-center">Please check your email and click on the link to verfiy your email address.</p>
-              </div>
-
-              <!-- Calling SendVerificationMail() method using authService Api -->
-              <ion-button (click)="sendVerificationEmail()">
-                <ion-icon name="refresh-outline" slot="start"></ion-icon>
-                Resend
-              </ion-button>
-
-            </div>
-
-            <div class="redirectToLogin ion-margin-top">
-              <span>Go back to?<a class="redirect" routerLink="/sign-in"> Sign in</a></span>
-            </div>
-
-          </div>
-        </div>
+           <!-- Calling the sign in route page -->
+           <ion-button routerLink="/signin">
+             <ion-icon slot="start" name="log-in-outline"></ion-icon> Sign in
+           </ion-button>
+         </ion-card-content>
+       </ion-card>
       </ion-col>
     </ion-row>
   </ion-grid>

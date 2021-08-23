@@ -8,6 +8,14 @@ const routes: Routes = [
     component: DashboardPage,
     children: [
       {
+        path: 'profile',
+        loadChildren: () => import('./profile/profile.module').then(m => m.ProfilePageModule)
+      },
+      {
+        path: 'new',
+        loadChildren: () => import('./new-travel/new-travel.module').then(m => m.NewTravelPageModule)
+      },
+      {
         path: 'travels',
         loadChildren: () => import('./travels/travels.module').then(m => m.TravelsPageModule)
       },

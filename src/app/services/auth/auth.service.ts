@@ -1,5 +1,5 @@
 import { Injectable, NgZone } from '@angular/core';
-import { User } from './../../models/user';
+import { User } from '../../models/user';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import firebase from 'firebase/app';
@@ -17,10 +17,10 @@ export class AuthService {
   userData: any;
 
 
-  // Returns true when user is looged in and email is verified
+  // Returns true when user is logged in and email is verified
   get isLoggedIn(): boolean {
     const user = JSON.parse(localStorage.getItem('user'));
-    return (user !== null && user.emailVerified !== false) ? true : false;
+    return (user !== null && user.emailVerified !== false);
   }
 
   get currentUser(){
@@ -54,9 +54,13 @@ export class AuthService {
      return this.angularFireAuth.signInWithEmailAndPassword(email, password)
      .then((result) => {
       this.ngZone.run(() => {
-        this.router.navigateByUrl('/dashboard');
+        this.router.navigateByUrl('/dashboard')
+          .then(r => r)
+          .catch(err => err);
       });
-      this.setUserData(result.user);
+      this.setUserData(result.user)
+        .then(r => r)
+        .catch(err => err);
      }).catch(async (error) => {
       // window.alert(error.message);
       const alert = await this.alertController.create({
@@ -70,21 +74,17 @@ export class AuthService {
    }
 
    signUp(email: string, password: string){
-     return this.angularFireAuth.createUserWithEmailAndPassword(email, password)
-     .then((result) => {
-       this.sendVerificationEmail();
-       this.setUserData(result.user);
-     });
+     return this.angularFireAuth.createUserWithEmailAndPassword(email, password);
    }
   sendVerificationEmail() {
     return this.angularFireAuth.currentUser.then((result) => {
       result.sendEmailVerification().then(() => {
-        this.router.navigateByUrl('verify-email-address');
+        this.router.navigateByUrl('verify-email-address').then(r => r);
       });
     });
   }
 
-  // Reset Forggot password
+  // Reset Forgot password
   forgotPassword(passwordResetEmail: string) {
     return this.angularFireAuth.sendPasswordResetEmail(passwordResetEmail)
     .then(() => {
@@ -102,9 +102,13 @@ export class AuthService {
     return this.angularFireAuth.signInWithPopup(provider)
     .then((result) => {
       this.ngZone.run(() => {
-        this.router.navigateByUrl('/dashboard');
+        this.router.navigateByUrl('/dashboard')
+          .then(r => r)
+          .catch(err => err);
       });
-      this.setUserData(result.user);
+      this.setUserData(result.user)
+        .then(r => r)
+        .catch(err => err);
     }).catch((error) => {
       window.alert(error.message);
     });
@@ -127,7 +131,9 @@ export class AuthService {
   signOut(){
     return this.angularFireAuth.signOut().then(() => {
       localStorage.removeItem('user');
-      this.router.navigateByUrl('/signin');
+      this.router.navigateByUrl('/signin')
+        .then(r => r)
+        .catch(err => err);
     });
   }
 }

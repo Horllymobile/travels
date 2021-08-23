@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewEncapsulation, Inject } from '@angular/core';
 import { AuthService } from '../../services/auth/auth.service';
+import {FormGroup, FormBuilder, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-signup',
@@ -8,17 +9,35 @@ import { AuthService } from '../../services/auth/auth.service';
 })
 export class SignupPage implements OnInit {
   iShowPassword = false;
+  loading = false;
+  signUpForm: FormGroup;
+  errorMessage: string;
   constructor(
-    private authService: AuthService
+    private authService: AuthService,
+    private fb: FormBuilder
   ) { }
 
   ngOnInit() {
+    this.signUpForm = this.fb.group({
+      email: ['horlamidex1@gmail.com', [Validators.required, Validators.email]],
+      password: ['horlly442', [Validators.required, Validators.min(6), Validators.max(12)]]
+    })
   }
 
-  signUp(values){
-
-    this.authService.signUp(values.email, values.password);
-
+  async signUp(){
+    this.loading = true;
+    try{
+      const result = await  this.authService.
+      signUp(this.signUpForm.get('email').value, this.signUpForm.get('password').value);
+      if(result) {
+        await this.authService.sendVerificationEmail();
+        await  this.authService.setUserData(result.user);
+      }
+    }catch (error){
+      this.loading = false;
+      this.errorMessage = error.message;
+      console.log(this.errorMessage);
+    }
   }
 
   showPassword(){

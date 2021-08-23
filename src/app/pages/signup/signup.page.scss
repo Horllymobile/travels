@@ -1,3 +1,19 @@
-.card{
-  margin-top: 50px;
+.bodyBg {
+  --background: url(./../../../assets/air-travellers.jpg) 0 0/100% 100%
+  no-repeat;
+  // --background: #5c5acf;
+  border-radius: 8px !important;
+}
+
+.card {
+  --background: transparent !important;
+  margin-top: 70px;
+}
+
+a {
+  color: #fff;
+}
+
+.signin-btn {
+  --background: #000;
 }

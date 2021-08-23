@@ -10,20 +10,24 @@
   <ion-grid>
     <ion-row>
       <ion-col sizeSm="6" offsetSm="3">
-        <ion-card *ngIf="travels">
-          <ion-img class="ion-no-padding" [src]="travels[0].image_url"></ion-img>
+        <ion-card *ngIf="travels?.length >= 1">
+          <ion-img class="ion-no-padding" [src]="travels[0]?.image_url"></ion-img>
           <ion-card-content>
-            <ion-card-title slot="start"> {{ travels[0].title }} </ion-card-title>
-            <p class="ion-text-left"><em slot="end"> {{ converTimeStampToDate(travels[0].date) | date }} </em></p>
-            <ion-card-subtitle>{{ travels[0].expenses | currency }}</ion-card-subtitle>
+            <ion-card-title slot="start"> {{ travels[0]?.title }} </ion-card-title>
+            <p class="ion-text-left"><em slot="end"> {{ converTimeStampToDate(travels[0]?.date) | date }} </em></p>
+            <ion-card-subtitle>{{ travels[0]?.expenses | currency }}</ion-card-subtitle>
           </ion-card-content>
         </ion-card>
+        <h3 *ngIf="!travels?.length" class="ion-text-center create-new" routerLink="/dashboard/new">
+          Create new travels
+          <ion-icon color="primary" name="add"></ion-icon>
+        </h3>
       </ion-col>
     </ion-row>
 
     <ion-row>
       <ion-col size="12" sizeSm="8" offsetSm="2">
-        <ion-list>
+        <ion-list *ngIf="travels?.length >= 1">
           <ion-item class="ion-margin-top" detail>
             <ion-thumbnail slot="start">
               <ion-img src="../../../../assets/paris.jpg"></ion-img>

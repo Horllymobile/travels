@@ -52,25 +52,6 @@ export class AuthService {
 
    signIn(email: string, password: string){
      return this.angularFireAuth.signInWithEmailAndPassword(email, password)
-     .then((result) => {
-      this.ngZone.run(() => {
-        this.router.navigateByUrl('/dashboard')
-          .then(r => r)
-          .catch(err => err);
-      });
-      this.setUserData(result.user)
-        .then(r => r)
-        .catch(err => err);
-     }).catch(async (error) => {
-      // window.alert(error.message);
-      const alert = await this.alertController.create({
-        header: 'Error',
-        message: error.message,
-        buttons: ['OK']
-      });
-
-      await alert.present();
-     });
    }
 
    signUp(email: string, password: string){

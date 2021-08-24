@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/dashboard/travels">
+      <ion-back-button (click)="back()">
       </ion-back-button>
     </ion-buttons>
     <ion-title>Create new travel</ion-title>
@@ -13,17 +13,39 @@
   <ion-grid>
     <ion-row>
       <ion-col class="form" size="12" sizeSm="8" offsetSm="2">
-        <ion-item>
-          <ion-input type="text" placeholder="Location"></ion-input>
-        </ion-item>
+        <div>
+          <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
+            [containWithinAspectRatio]="containWithinAspectRatio" [aspectRatio]="4 / 3" [resizeToWidth]="256"
+            [cropperMinWidth]="128" [onlyScaleDown]="true" [roundCropper]="false" [canvasRotation]="canvasRotation"
+            [transform]="transform" [alignImage]="'left'" [style.display]="showCropper ? null : 'none'" format="png"
+            (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()" (cropperReady)="cropperReady($event)"
+            (loadImageFailed)="loadImageFail()"></image-cropper>
+        </div>
+        <form [formGroup]="createTravelForm">
+          <ion-item>
+            <ion-input type="file" accept="image/png, image/jpg" (change)="uploadImage($event)"></ion-input>
+          </ion-item>
 
-        <ion-item>
-          <ion-input type="date" placeholder="Date"></ion-input>
-        </ion-item>
+          <ion-item class="ion-margin-top">
+            <ion-input type="text" placeholder="Location" formControlName="location"></ion-input>
+          </ion-item>
 
-        <ion-item>
-          <ion-input type="number" placeholder="Expenses"></ion-input>
-        </ion-item>
+          <ion-item class="ion-margin-top">
+            <ion-input type="text" placeholder="Purpose" formControlName="purpose"></ion-input>
+          </ion-item>
+
+          <ion-item class="ion-margin-top">
+            <ion-label>Date</ion-label>
+            <ion-input type="date" formControlName="date"></ion-input>
+          </ion-item>
+
+          <ion-item class="ion-margin-top">
+            <ion-input type="number" placeholder="Expenses Amount" formControlName="expenses"></ion-input>
+          </ion-item>
+
+          <ion-button expand="full" class="ion-margin-top" (click)="createTravel()"
+            [disabled]="createTravelForm.invalid">Create</ion-button>
+        </form>
       </ion-col>
     </ion-row>
   </ion-grid>

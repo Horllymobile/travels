@@ -56,15 +56,15 @@ export class SigninPage implements OnInit, OnDestroy {
   async signIn(){
     this.loading = true;
     try{
-      const result:any = await  this.authService.
-      signIn(this.loginForm.get('email').value, this.loginForm.get('password').value);
+      const result = await  this.authService.
+      signIn(this.loginForm.controls.userEmail.value, this.loginForm.controls.userPassword.value);
       if(result){
+        await this.authService.setUserData(result.user);
         await this.router.navigateByUrl('/dashboard');
       }
     }catch (error){
       this.loading = false;
       this.errorMessage = error.message;
-      console.log(this.errorMessage);
     }
   }
 

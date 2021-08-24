@@ -9,7 +9,7 @@
 <ion-content>
   <ion-grid>
     <ion-row>
-      <ion-col sizeSm="6" offsetSm="3">
+      <ion-col size="12" sizeSm="6" offsetSm="3">
         <ion-card *ngIf="travels?.length >= 1">
           <ion-img class="ion-no-padding" [src]="travels[0]?.image_url"></ion-img>
           <ion-card-content>
@@ -26,30 +26,17 @@
     </ion-row>
 
     <ion-row>
-      <ion-col size="12" sizeSm="8" offsetSm="2">
-        <ion-list *ngIf="travels?.length >= 1">
-          <ion-item class="ion-margin-top" detail>
-            <ion-thumbnail slot="start">
-              <ion-img src="../../../../assets/paris.jpg"></ion-img>
-            </ion-thumbnail>
-            <ion-label>
-              <h2 class="card-title">Paris, France</h2>
-              <p class=""><em slot="end">Mar 12 2015</em></p>
-              <p>{{ '106.55' | currency }}</p>
-            </ion-label>
-          </ion-item>
-
-          <ion-item class="ion-margin-top" detail>
-            <ion-thumbnail slot="start">
-              <ion-img src="../../../../assets/munich.jpg"></ion-img>
-            </ion-thumbnail>
-            <ion-label>
-              <h2 class="card-title">Munich, Germany</h2>
-              <p class=""><em slot="end">Sep 12 2021</em></p>
-              <p>{{ '106.55' | currency }}</p>
-            </ion-label>
-          </ion-item>
-        </ion-list>
+      <ion-col size="12" sizeSm="6" offsetSm="3" *ngIf="travels?.length >= 1">
+        <ion-item class="ion-margin-top" *ngFor="let travel of travels.slice(0)" detail>
+          <ion-thumbnail slot="start">
+            <ion-img [src]="travel.image_url"></ion-img>
+          </ion-thumbnail>
+          <ion-label>
+            <h2 class="card-title">{{ travel.title }}</h2>
+            <p class=""><em slot="end"> {{ converTimeStampToDate(travel.date) | date }} </em></p>
+            <p>{{ '106.55' | currency }}</p>
+          </ion-label>
+        </ion-item>
       </ion-col>
     </ion-row>
   </ion-grid>

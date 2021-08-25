@@ -3,7 +3,7 @@ import { AuthService } from './../../../services/auth/auth.service';
 import { DataService } from './../../../services/data/data.service';
 import { PopoverController } from '@ionic/angular';
 import { PopoverComponent } from './../../../components/popover/popover.component';
-import {AngularFirestoreDocument} from "@angular/fire/firestore";
+import { Travel } from 'src/app/models/travel';
 @Component({
   selector: 'app-travels',
   templateUrl: './travels.page.html',
@@ -11,7 +11,7 @@ import {AngularFirestoreDocument} from "@angular/fire/firestore";
 })
 export class TravelsPage implements OnInit {
   user: any;
-  travels: any[];
+  travels: Travel[];
   constructor(
     private authService: AuthService,
     private dataService: DataService,
@@ -21,11 +21,10 @@ export class TravelsPage implements OnInit {
   ngOnInit() {
     setTimeout(() => {
       this.user = this.authService.currentUser[1] ? this.authService.currentUser[1] : this.authService.currentUser[0];
-      console.log(this.user);
+      // console.log(this.user);
       this.dataService.getTravels(this.user.uid).valueChanges()
-      .subscribe(data => {
+      .subscribe((data: Travel[]) => {
         this.travels = data;
-        console.log(this.travels);
       }, err => console.log(err));
     }, 100);
   }
@@ -48,4 +47,17 @@ export class TravelsPage implements OnInit {
     return date;
   }
 
+  doRefresh(event){
+    this.dataService.getTravels(this.user.uid).valueChanges()
+    .subscribe((data: Travel[]) => {
+      this.travels = data.sort((a, b) => this.sortExpenses(a, b));
+      console.log(this.travels);
+    }, err => console.log(err));
+      setTimeout(() => {
+        event.target.complete();
+      }, 2000);
+    }
+  sortExpenses(first: Travel, last: Travel){
+    return first.expenses - last.expenses;
+  }
 }

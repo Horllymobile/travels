@@ -13,6 +13,7 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireAuthGuardModule } from '@angular/fire/auth-guard';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireStorageModule } from '@angular/fire/storage';
 import { environment } from './../environments/environment';
 @NgModule({
   declarations: [AppComponent],
@@ -24,7 +25,8 @@ import { environment } from './../environments/environment';
     AngularFireAuthModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthGuardModule,
-    AngularFirestoreModule.enablePersistence(),
+    AngularFireStorageModule,
+    AngularFirestoreModule,
     FormsModule,
     ReactiveFormsModule
   ],

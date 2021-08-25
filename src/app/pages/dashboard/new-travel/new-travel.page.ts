@@ -26,12 +26,13 @@ export class NewTravelPage implements OnInit {
       location: ['', [Validators.required, Validators.pattern(/\w*, \w*/g)]],
       purpose: ['', [Validators.required, Validators.pattern(/\w*/g)]],
       date: ['', [Validators.required]],
+      image: ['', [Validators.required]],
       expenses: ['', [Validators.required]]
     });
   }
 
   createTravel(){
-    console.log(this.createTravelForm.valueChanges);
+    console.log(this.createTravelForm.value);
   }
 
   uploadImage(event){

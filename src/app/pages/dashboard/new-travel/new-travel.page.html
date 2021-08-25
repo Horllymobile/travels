@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button (click)="back()">
+      <ion-back-button (click)="back()" defaultHref="/dashboard/travels">
       </ion-back-button>
     </ion-buttons>
     <ion-title>Create new travel</ion-title>
@@ -12,7 +12,7 @@
 
   <ion-grid>
     <ion-row>
-      <ion-col class="form" size="12" sizeSm="8" offsetSm="2">
+      <ion-col class="" size="12" sizeSm="8" offsetSm="2">
         <div>
           <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
             [containWithinAspectRatio]="containWithinAspectRatio" [aspectRatio]="4 / 3" [resizeToWidth]="256"
@@ -21,9 +21,9 @@
             (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()" (cropperReady)="cropperReady($event)"
             (loadImageFailed)="loadImageFail()"></image-cropper>
         </div>
-        <form [formGroup]="createTravelForm">
+        <form class="form" [formGroup]="createTravelForm">
           <ion-item>
-            <ion-input type="file" accept="image/*" (change)="uploadImage($event)"></ion-input>
+            <ion-input type="file" accept="image/*" formControlName="image" (change)="uploadImage($event)"></ion-input>
           </ion-item>
 
           <ion-item class="ion-margin-top">

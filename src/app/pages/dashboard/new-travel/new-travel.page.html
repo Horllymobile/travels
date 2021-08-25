@@ -12,18 +12,27 @@
 
   <ion-grid>
     <ion-row>
-      <ion-col class="" size="12" sizeSm="8" offsetSm="2">
-        <div>
+      <ion-col class="col" size="12" sizeSm="8" offsetSm="2">
+
+        <div *ngIf="imageChangedEvent">
           <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
-            [containWithinAspectRatio]="containWithinAspectRatio" [aspectRatio]="4 / 3" [resizeToWidth]="256"
+            [containWithinAspectRatio]="containWithinAspectRatio" [aspectRatio]="16 / 9" [resizeToWidth]="256"
             [cropperMinWidth]="128" [onlyScaleDown]="true" [roundCropper]="false" [canvasRotation]="canvasRotation"
             [transform]="transform" [alignImage]="'left'" [style.display]="showCropper ? null : 'none'" format="png"
             (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()" (cropperReady)="cropperReady($event)"
             (loadImageFailed)="loadImageFail()"></image-cropper>
+
+          <ion-button (click)="deleteImage()">
+            <ion-icon name="trash"></ion-icon>
+          </ion-button>
         </div>
+
         <form class="form" [formGroup]="createTravelForm">
-          <ion-item>
-            <ion-input type="file" accept="image/*" formControlName="image" (change)="uploadImage($event)"></ion-input>
+          <ion-item *ngIf="!imageChangedEvent" class="">
+            <label for="image" class="">
+              Upload Image
+            </label>
+            <input type="file" id="image" accept="image/*" formControlName="image" (change)="uploadImage($event)">
           </ion-item>
 
           <ion-item class="ion-margin-top">
@@ -43,8 +52,7 @@
             <ion-input type="number" placeholder="Expenses Amount" formControlName="expenses"></ion-input>
           </ion-item>
 
-          <ion-button expand="full" class="ion-margin-top" (click)="createTravel()"
-            [disabled]="createTravelForm.invalid">Create</ion-button>
+          <ion-button expand="full" class="ion-margin-top" (click)="createTravel()">Create</ion-button>
         </form>
       </ion-col>
     </ion-row>

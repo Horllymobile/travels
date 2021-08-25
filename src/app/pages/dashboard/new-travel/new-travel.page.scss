@@ -1,3 +1,16 @@
 .form {
-  margin-top: 150px;
+  // margin-top: 50px;
+}
+
+.col {
+  margin-top: 5em;
+}
+
+input[type="file"] {
+  visibility: hidden;
+}
+
+.placeholder {
+  margin: 0 auto;
+  background-position: center;
 }

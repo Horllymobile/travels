@@ -1,6 +1,9 @@
+import { DataService } from './../../../services/data/data.service';
 import { Component, OnInit } from '@angular/core';
 import { base64ToFile, Dimensions,ImageCroppedEvent, ImageTransform } from 'ngx-image-cropper';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Travel } from 'src/app/models/travel';
+import { LoadingController } from '@ionic/angular';
 @Component({
   selector: 'app-new-travel',
   templateUrl: './new-travel.page.html',
@@ -18,7 +21,9 @@ export class NewTravelPage implements OnInit {
   transform: ImageTransform = {};
 
   constructor(
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private dataService: DataService,
+    private loadingCtrl: LoadingController
   ) { }
 
   ngOnInit() {
@@ -31,8 +36,30 @@ export class NewTravelPage implements OnInit {
     });
   }
 
-  createTravel(){
-    console.log(this.createTravelForm.value);
+  async createTravel(){
+    try {
+      const loader = await this.loadingCtrl.create({
+        message: 'Creating travel'
+      });
+      const travel: Travel = {
+        location: this.createTravelForm.get('location').value,
+        purpose: this.createTravelForm.get('purpose').value,
+        date: this.createTravelForm.get('date').value,
+        expenses: this.createTravelForm.get('expenses').value,
+        imageUrl: this.croppedImage,
+      };
+      await loader.present();
+      const res = await this.dataService.createTravel(travel);
+      loader.dismiss();
+      this.createTravelForm.reset();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  deleteImage(){
+    this.imageChangedEvent = '';
+    this.createTravelForm.get('image').reset();
   }
 
   uploadImage(event){
@@ -41,8 +68,8 @@ export class NewTravelPage implements OnInit {
   }
 
   imageCropped(event: ImageCroppedEvent){
-    this.croppedImage = event.base64;
-    console.log(event, base64ToFile(event.base64));
+    this.croppedImage = base64ToFile(event.base64);
+    // console.log(event, base64ToFile(event.base64));
   }
 
   imageLoaded() {

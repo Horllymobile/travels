@@ -10,7 +10,9 @@
             </ion-card-title>
           </ion-card-header>
           <ion-card-content class="ion-margin-top">
-            <ion-text *ngIf="errorMessage" color="light"><p>{{ errorMessage }}</p></ion-text>
+            <ion-text *ngIf="errorMessage" color="light">
+              <p>{{ errorMessage }}</p>
+            </ion-text>
             <form [formGroup]="loginForm">
               <ion-item>
                 <ion-input type="email" class="input" placeholder="Email" formControlName="userEmail"></ion-input>
@@ -22,7 +24,8 @@
                 <ion-icon name="eye-outline" (click)="showPassword()" *ngIf="iShowPassword"></ion-icon>
                 <ion-icon name="eye-off-outline" (click)="showPassword()" *ngIf="!iShowPassword"></ion-icon>
               </ion-item>
-              <ion-button class="ion-margin-top signin-btn" [disabled]="loginForm.invalid" (click)="signIn()" expand="block">
+              <ion-button class="ion-margin-top signin-btn" [disabled]="loginForm.invalid" (click)="signIn()"
+                expand="block">
                 Sign In</ion-button>
             </form>
             <ion-text color="light">
@@ -34,21 +37,15 @@
         </ion-card>
       </ion-col>
     </ion-row>
-    <!-- <ion-row>
-      <ion-col size-sm="6" offset-sm="3" class="text-center">
-        <ion-buttons class="ion-padding buttons">
-          <ion-button color="danger" size="default" fill="solid" (click)="loginWithGoogle()" class="ion-margin-top">
-            <ion-icon name="logo-google" slot="end"></ion-icon>
-            Sign in with
-          </ion-button>
-
-          <ion-button color="primary" size="default" fill="solid" class="ion-margin-top">
-            <ion-icon name="logo-facebook" slot="end"></ion-icon>
-            Sign in with
-          </ion-button>
-        </ion-buttons>
+    <ion-row>
+      <ion-col size-sm="5" offset-sm="3" class="text-center">
+        <ion-button expand="full" color="danger" size="large" fill="solid" (click)="loginWithGoogle()"
+          class="ion-margin-top">
+          <ion-icon name="logo-google" slot="end"></ion-icon>
+          Sign in with
+        </ion-button>
       </ion-col>
-    </ion-row> -->
+    </ion-row>
   </ion-grid>
 
 </ion-content>

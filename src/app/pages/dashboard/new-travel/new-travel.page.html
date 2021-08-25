@@ -23,7 +23,7 @@
         </div>
         <form [formGroup]="createTravelForm">
           <ion-item>
-            <ion-input type="file" accept="image/png, image/jpg" (change)="uploadImage($event)"></ion-input>
+            <ion-input type="file" accept="image/*" (change)="uploadImage($event)"></ion-input>
           </ion-item>
 
           <ion-item class="ion-margin-top">

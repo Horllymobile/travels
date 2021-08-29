@@ -4,13 +4,14 @@ import { DataService } from './../../../services/data/data.service';
 import { PopoverController } from '@ionic/angular';
 import { PopoverComponent } from './../../../components/popover/popover.component';
 import { Travel } from 'src/app/models/travel';
+import { User } from 'src/app/models/user';
 @Component({
   selector: 'app-travels',
   templateUrl: './travels.page.html',
   styleUrls: ['./travels.page.scss'],
 })
 export class TravelsPage implements OnInit {
-  user: any;
+  user: User;
   travels: Travel[];
   constructor(
     private authService: AuthService,

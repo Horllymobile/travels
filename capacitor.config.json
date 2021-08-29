@@ -2,5 +2,6 @@
 	"appId": "io.ionic.starter",
 	"appName": "t-travel",
 	"webDir": "www",
-	"bundledWebRuntime": false
+	"bundledWebRuntime": false,
+  "linuxAndroidStudioPath":"/snap/bin/android-studio"
 }

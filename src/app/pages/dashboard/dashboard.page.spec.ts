@@ -10,7 +10,9 @@ describe('DashboardPage', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ DashboardPage ],
-      imports: [IonicModule.forRoot()]
+      imports: [
+
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(DashboardPage);

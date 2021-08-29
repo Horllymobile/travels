@@ -1,7 +1,11 @@
+import { AuthService } from './../../services/auth/auth.service';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { SignupPage } from './signup.page';
+import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
+import { UrlSerializer } from '@angular/router';
 
 describe('SignupPage', () => {
   let component: SignupPage;
@@ -10,7 +14,15 @@ describe('SignupPage', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ SignupPage ],
-      imports: [IonicModule.forRoot()]
+      imports: [
+        ReactiveFormsModule,
+        IonicModule,
+        RouterTestingModule
+      ],
+      providers: [
+        {provide: AuthService, useClass: AuthServiceStub},
+        {provide: UrlSerializer, useClass: UrlSerializerStub}
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(SignupPage);
@@ -22,3 +34,27 @@ describe('SignupPage', () => {
     expect(component).toBeTruthy();
   });
 });
+
+
+class UrlSerializerStub{
+
+  urlSerializer(){
+    return {
+      serialize: () => {}
+    };
+  }
+
+}
+
+class AuthServiceStub {
+  signUpForm: FormGroup;
+  private formBuilder: FormBuilder;
+  constructor(
+  ){
+    this.formBuilder = new FormBuilder();
+    this.signUpForm = this.formBuilder.group({
+      email: [''],
+      password: ['']
+    });
+  }
+}

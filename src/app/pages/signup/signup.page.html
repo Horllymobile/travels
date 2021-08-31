@@ -16,6 +16,12 @@
             </ion-text>
             <form [formGroup]="signUpForm">
               <ion-item>
+                <ion-input type="text" placeholder="First name" formControlName="firstName"></ion-input>
+              </ion-item>
+              <ion-item class="ion-margin-top">
+                <ion-input type="text" placeholder="Last name" formControlName="lastName"></ion-input>
+              </ion-item>
+              <ion-item class="ion-margin-top">
                 <ion-input type="email" placeholder="Email" name="email" formControlName="email"></ion-input>
               </ion-item>
               <ion-item class="ion-margin-top">

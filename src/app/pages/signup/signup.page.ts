@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewEncapsulation, Inject } from '@angular/core';
 import { AuthService } from '../../services/auth/auth.service';
 import {FormGroup, FormBuilder, Validators} from '@angular/forms';
+import { User, UserCreate } from 'src/app/models/user';
 
 @Component({
   selector: 'app-signup',
@@ -19,19 +20,21 @@ export class SignupPage implements OnInit {
 
   ngOnInit() {
     this.signUpForm = this.fb.group({
+      firstName: ['', [Validators.required]],
+      lastName: ['', [Validators.required]],
       email: ['horlamidex1@gmail.com', [Validators.required, Validators.email]],
       password: ['horlly442', [Validators.required, Validators.min(6), Validators.max(12)]]
-    })
+    });
   }
 
   async signUp(){
     this.loading = true;
     try{
-      const result = await  this.authService.
-      signUp(this.signUpForm.get('email').value, this.signUpForm.get('password').value);
+      const result =  await this.authService.signUp(this.signUpForm.get('email').value, this.signUpForm.get('password').value);
       if(result) {
         await this.authService.sendVerificationEmail();
-        await  this.authService.setUserData(result.user);
+        const user = { ...result.user, firstName: this.signUpForm.get('firstName').value, lastName: this.signUpForm.get('lastName').value };
+        await  this.authService.setUserData(user);
       }
     }catch (error){
       this.loading = false;

@@ -1,3 +1,4 @@
+import { UserCreate } from './../../models/user';
 import { Injectable, NgZone } from '@angular/core';
 import { User } from '../../models/user';
 import { AngularFireAuth } from '@angular/fire/auth';
@@ -95,12 +96,12 @@ export class AuthService {
     });
   }
 
-  setUserData(user: User){
+  setUserData(user){
     const userRef: AngularFirestoreDocument<any> = this.angularFirestore.doc(`users/${user.uid}`);
     const userData: User = {
       uid: user.uid,
       email: user.email,
-      displayName: user.displayName,
+      displayName: `${user.firstName} ${user.lastName}`,
       photoURL: user.photoURL,
       emailVerified: user.emailVerified
     };

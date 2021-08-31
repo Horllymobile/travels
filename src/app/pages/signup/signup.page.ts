@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, ViewEncapsulation, Inject } from '@angula
 import { AuthService } from '../../services/auth/auth.service';
 import {FormGroup, FormBuilder, Validators} from '@angular/forms';
 import { User, UserCreate } from 'src/app/models/user';
+import { AlertController, LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-signup',
@@ -15,31 +16,44 @@ export class SignupPage implements OnInit {
   errorMessage: string;
   constructor(
     private authService: AuthService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private alertCtrl: AlertController,
+    private loaderCtrl: LoadingController
   ) { }
 
   ngOnInit() {
     this.signUpForm = this.fb.group({
       firstName: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
-      email: ['horlamidex1@gmail.com', [Validators.required, Validators.email]],
-      password: ['horlly442', [Validators.required, Validators.min(6), Validators.max(12)]]
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.min(6), Validators.max(12)]]
     });
   }
 
   async signUp(){
-    this.loading = true;
+    const loader = await this.loaderCtrl.create({
+      message: 'Please wait while signing you up',
+      animated: true,
+      spinner: 'circular',
+      translucent: true
+    });
     try{
+      await loader.present();
       const result =  await this.authService.signUp(this.signUpForm.get('email').value, this.signUpForm.get('password').value);
       if(result) {
-        await this.authService.sendVerificationEmail();
         const user = { ...result.user, firstName: this.signUpForm.get('firstName').value, lastName: this.signUpForm.get('lastName').value };
         await  this.authService.setUserData(user);
+        await loader.dismiss();
+        await this.authService.sendVerificationEmail();
       }
     }catch (error){
-      this.loading = false;
-      this.errorMessage = error.message;
-      console.log(this.errorMessage);
+      const alert =  await this.alertCtrl.create({
+        header: 'Error',
+        message: error.message,
+        buttons: ['Close']
+      });
+      await loader.dismiss();
+      await alert.present();
     }
   }
 

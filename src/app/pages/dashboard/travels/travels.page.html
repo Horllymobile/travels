@@ -29,7 +29,7 @@
     </ion-row>
 
     <ion-row>
-      <ion-col size="12" sizeSm="6" offsetSm="3" *ngIf="travels?.length >= 1">
+      <ion-col class="ion-padding" size="12" sizeSm="6" offsetSm="3" *ngIf="travels?.length >= 1">
         <ion-item class="ion-margin-top" *ngFor="let travel of travels.slice(1)" detail>
           <ion-thumbnail slot="start">
             <ion-img [src]="travel.imageUrl"></ion-img>

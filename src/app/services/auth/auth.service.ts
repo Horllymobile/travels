@@ -24,10 +24,23 @@ export class AuthService {
     return (user !== null && user.emailVerified !== false);
   }
 
-  get currentUser(){
+  get loginUser(){
     const user = JSON.parse(localStorage.getItem('user'));
+    return user;
+  }
+
+  get currentUser(){
+    let user = JSON.parse(localStorage.getItem('user'));
     // this.userData = user.providerData;
-    return user.providerData;
+    this.angularFirestore.doc(`users/${user.uid}`).valueChanges().subscribe(
+      data => {
+        user = data;
+      },
+      err => {
+        console.log(err);
+      }
+    );
+    return user;
   }
 
   constructor(
@@ -76,27 +89,43 @@ export class AuthService {
     });
   }
 
-  googleAuth(){
-    return this.authLogin(new firebase.auth.GoogleAuthProvider());
-  }
+  // googleAuth(){
+  //   return this.authLogin(new firebase.auth.GoogleAuthProvider());
+  // }
 
-  authLogin(provider){
-    return this.angularFireAuth.signInWithPopup(provider)
-    .then((result) => {
-      this.ngZone.run(() => {
-        this.router.navigateByUrl('/dashboard')
-          .then(r => r)
-          .catch(err => err);
-      });
-      this.setUserData(result.user)
-        .then(r => r)
-        .catch(err => err);
-    }).catch((error) => {
-      window.alert(error.message);
+  // authLogin(provider){
+  //   return this.angularFireAuth.signInWithPopup(provider)
+  //   .then((result) => {
+  //     this.ngZone.run(() => {
+  //       this.router.navigateByUrl('/dashboard')
+  //         .then(r => r)
+  //         .catch(err => err);
+  //     });
+  //     this.setUserData(result.user)
+  //       .then(r => r)
+  //       .catch(err => err);
+  //   }).catch((error) => {
+  //     window.alert(error.message);
+  //   });
+  // }
+
+  async setUserDataLogin(user){
+    const userRef: AngularFirestoreDocument<any> = this.angularFirestore.doc(`users/${user.uid}`);
+
+    const name = await (await userRef.get().toPromise()).data();
+    const userData: User = {
+      uid: user.uid,
+      email: user.email,
+      displayName: `${name.displayName}`,
+      photoURL: user.photoURL,
+      emailVerified: user.emailVerified
+    };
+    return userRef.set(userData, {
+      merge: true
     });
   }
 
-  setUserData(user){
+  setUserDataSignup(user){
     const userRef: AngularFirestoreDocument<any> = this.angularFirestore.doc(`users/${user.uid}`);
     const userData: User = {
       uid: user.uid,

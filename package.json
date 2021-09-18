@@ -75,5 +75,9 @@
     "open": "^7.0.3",
     "jsonc-parser": "^3.0.0"
   },
-  "description": "An Ionic project"
+  "description": "An Ionic project",
+  "engines": {
+    "node": "14.17.5",
+    "npm": "7.21.0"
+  }
 }

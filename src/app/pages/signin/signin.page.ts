@@ -12,7 +12,6 @@ import {Router} from '@angular/router';
   selector: 'app-signin',
   templateUrl: './signin.page.html',
   styleUrls: ['./signin.page.scss'],
-  encapsulation: ViewEncapsulation.None
 })
 export class SigninPage implements OnInit, OnDestroy {
   iShowPassword = false;
@@ -50,9 +49,9 @@ export class SigninPage implements OnInit, OnDestroy {
   }
 
 
-  loginWithGoogle() {
-    this.authService.googleAuth();
-  }
+  // loginWithGoogle() {
+  //   this.authService.googleAuth();
+  // }
 
   async signIn(){
     let loader;
@@ -79,8 +78,8 @@ export class SigninPage implements OnInit, OnDestroy {
         await loader.dismiss();
         return;
       }
-      await this.authService.setUserData(result.user);
-      await this.router.navigateByUrl('/dashboard');
+      await this.authService.setUserDataLogin(result.user);
+      this.router.navigateByUrl('/dashboard');
       await loader.dismiss();
     }catch (error){
       alert = await this.alertCtrl.create({

@@ -21,9 +21,9 @@ export class TravelsPage implements OnInit {
 
   ngOnInit() {
     setTimeout(() => {
-      this.user = this.authService.currentUser[1] ? this.authService.currentUser[1] : this.authService.currentUser[0];
+      this.user = this.authService.loginUser;
       // console.log(this.user);
-      this.dataService.getTravels(this.user.uid).valueChanges()
+      this.dataService.getTravels(this.user.email).valueChanges()
       .subscribe((data: Travel[]) => {
         this.travels = data;
       }, err => console.log(err));
@@ -40,7 +40,6 @@ export class TravelsPage implements OnInit {
 
     await popover.present();
     const { role } = await popover.onDidDismiss();
-    console.log(role);
   }
 
   converTimeStampToDate(timeStamp: any){

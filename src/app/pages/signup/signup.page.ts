@@ -42,7 +42,7 @@ export class SignupPage implements OnInit {
       const result =  await this.authService.signUp(this.signUpForm.get('email').value, this.signUpForm.get('password').value);
       if(result) {
         const user = { ...result.user, firstName: this.signUpForm.get('firstName').value, lastName: this.signUpForm.get('lastName').value };
-        await  this.authService.setUserData(user);
+        await  this.authService.setUserDataSignup(user);
         await loader.dismiss();
         await this.authService.sendVerificationEmail();
       }

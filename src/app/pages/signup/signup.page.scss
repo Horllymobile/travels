@@ -1,13 +1,17 @@
 .bodyBg {
   --background: url(./../../../assets/air-travellers.jpg) 0 0/100% 100%
-  no-repeat;
+    no-repeat;
   // --background: #5c5acf;
   border-radius: 8px !important;
 }
 
 .card {
   --background: transparent !important;
-  margin-top: 70px;
+  margin-top: 1em;
+}
+
+.title {
+  margin-top: 3em;
 }
 
 a {

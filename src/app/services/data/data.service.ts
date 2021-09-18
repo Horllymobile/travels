@@ -23,8 +23,9 @@ export class DataService {
 
   async createTravel(travel: Travel){
     try {
+      console.log(this.authService.currentUser);
       const res = await this.uploadImage(travel.imageUrl, travel.location);
-      const user_id = this.authService.currentUser[0].email;
+      const user_id = this.authService.currentUser.email;
       const data: Travel = { ...travel, imageUrl: await res.ref.getDownloadURL(), user_id };
       await this.fireStore.collection('travels').add(data);
     } catch (error) {

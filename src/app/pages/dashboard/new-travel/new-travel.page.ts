@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { base64ToFile, Dimensions,ImageCroppedEvent, ImageTransform } from 'ngx-image-cropper';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Travel } from 'src/app/models/travel';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, AlertController } from '@ionic/angular';
 @Component({
   selector: 'app-new-travel',
   templateUrl: './new-travel.page.html',
@@ -19,11 +19,14 @@ export class NewTravelPage implements OnInit {
   showCropper = false;
   containWithinAspectRatio = false;
   transform: ImageTransform = {};
+  loader: any;
+  alert: any;
 
   constructor(
     private formBuilder: FormBuilder,
     private dataService: DataService,
-    private loadingCtrl: LoadingController
+    private loadingCtrl: LoadingController,
+    private alterCtrl: AlertController
   ) { }
 
   ngOnInit() {
@@ -38,7 +41,7 @@ export class NewTravelPage implements OnInit {
 
   async createTravel(){
     try {
-      const loader = await this.loadingCtrl.create({
+      this.loader = await this.loadingCtrl.create({
         message: 'Creating travel'
       });
       const travel: Travel = {
@@ -48,11 +51,19 @@ export class NewTravelPage implements OnInit {
         expenses: this.createTravelForm.get('expenses').value,
         imageUrl: this.croppedImage,
       };
-      await loader.present();
       const res = await this.dataService.createTravel(travel);
-      loader.dismiss();
+      this.loader.dismiss();
       this.createTravelForm.reset();
     } catch (error) {
+      this.alterCtrl.create({
+        message: error.message,
+        animated: true,
+        buttons: ['Close'],
+        header: 'Error'
+      }).then((value) => {
+        console.log(value);
+        this.loader.dismiss();
+      });
       console.log(error);
     }
   }

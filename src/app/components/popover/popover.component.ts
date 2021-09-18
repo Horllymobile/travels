@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { PopoverController } from '@ionic/angular';
 import { AuthService } from './../../services/auth/auth.service';
@@ -10,13 +11,19 @@ export class PopoverComponent implements OnInit {
 
   constructor(
     private popoverController: PopoverController,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) { }
 
   ngOnInit() {}
 
  async dismissPopover(){
       this.popoverController.dismiss();
+  }
+
+  async profilePage(){
+    await this.router.navigateByUrl('/dashboard/profile');
+    await this.popoverController.dismiss();
   }
 
   logout(){

@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { base64ToFile, Dimensions,ImageCroppedEvent, ImageTransform } from 'ngx-image-cropper';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Travel } from 'src/app/models/travel';
-import { LoadingController, AlertController } from '@ionic/angular';
+import { LoadingController, AlertController, AlertButton } from '@ionic/angular';
 @Component({
   selector: 'app-new-travel',
   templateUrl: './new-travel.page.html',
@@ -21,6 +21,8 @@ export class NewTravelPage implements OnInit {
   transform: ImageTransform = {};
   loader: any;
   alert: any;
+
+  button: AlertButton;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -44,6 +46,12 @@ export class NewTravelPage implements OnInit {
       this.loader = await this.loadingCtrl.create({
         message: 'Creating travel'
       });
+      this.alert = await this.alterCtrl.create({
+        header: 'Create Travel',
+        message: 'Successfully created travels',
+        buttons: ['Ok'],
+      });
+      this.loader.present();
       const travel: Travel = {
         location: this.createTravelForm.get('location').value,
         purpose: this.createTravelForm.get('purpose').value,
@@ -52,7 +60,12 @@ export class NewTravelPage implements OnInit {
         imageUrl: this.croppedImage,
       };
       const res = await this.dataService.createTravel(travel);
-      this.loader.dismiss();
+      this.loader.dismiss().then(() => {
+        this.croppedImage = null;
+        this.imageChangedEvent = '';
+        this.alert.present();
+      });
+
       this.createTravelForm.reset();
     } catch (error) {
       this.alterCtrl.create({

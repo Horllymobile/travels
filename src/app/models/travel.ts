@@ -6,4 +6,5 @@ export interface Travel {
   imageUrl: string;
   location: string;
   purpose: string;
+  pinned: boolean;
 }

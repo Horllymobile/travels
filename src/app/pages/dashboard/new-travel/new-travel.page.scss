@@ -3,7 +3,7 @@
 }
 
 .col {
-  margin-top: 5em;
+  margin-top: 2em;
 }
 
 input[type="file"] {
@@ -11,6 +11,21 @@ input[type="file"] {
 }
 
 .placeholder {
-  margin: 0 auto;
+  margin: auto;
   background-position: center;
+}
+.upload {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto;
+  border: 1px gray solid;
+  border-radius: 5px;
+  &__label {
+    font-size: 3em;
+    text-align: center;
+  }
+
+  &__icon {
+    padding-top: 25px;
+  }
 }

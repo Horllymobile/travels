@@ -5,6 +5,8 @@ import { PopoverController } from '@ionic/angular';
 import { PopoverComponent } from './../../../components/popover/popover.component';
 import { Travel } from 'src/app/models/travel';
 import { User } from 'src/app/models/user';
+import { Observable } from 'rxjs';
+import { map, take } from 'rxjs/operators';
 @Component({
   selector: 'app-travels',
   templateUrl: './travels.page.html',
@@ -12,7 +14,9 @@ import { User } from 'src/app/models/user';
 })
 export class TravelsPage implements OnInit {
   user: User;
-  travels: Travel[];
+  pinned: Travel | undefined;
+  travels$: Observable<Travel[]> | undefined;
+  online = navigator.onLine;
   constructor(
     private authService: AuthService,
     private dataService: DataService,
@@ -20,14 +24,20 @@ export class TravelsPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    setTimeout(() => {
+    if(this.online){
       this.user = this.authService.loginUser;
-      // console.log(this.user);
-      this.dataService.getTravels(this.user.email).valueChanges()
-      .subscribe((data: Travel[]) => {
-        this.travels = data;
-      }, err => console.log(err));
-    }, 100);
+      this.travels$ =  this.dataService.getTravels(this.user.email).valueChanges() as Observable<Travel[]>;
+      this.travels$.subscribe({
+        next: (travels) => {
+          console.log(travels);
+          this.pinned = travels.find(travel => travel.pinned === true);
+          console.log(this.pinned);
+        },
+        error: (error) => {
+          console.log(error);
+        }
+      });
+    }
   }
 
   async popover(ev: any) {
@@ -48,10 +58,10 @@ export class TravelsPage implements OnInit {
   }
 
   doRefresh(event){
-    this.dataService.getTravels(this.user.uid).valueChanges()
+    console.log(this.user);
+    this.dataService.getTravels(this.user.email).valueChanges()
     .subscribe((data: Travel[]) => {
-      this.travels = data.sort((a, b) => this.sortExpenses(a, b));
-      console.log(this.travels);
+      // this.travels = data.sort((a, b) => this.sortExpenses(a, b));
     }, err => console.log(err));
       setTimeout(() => {
         event.target.complete();

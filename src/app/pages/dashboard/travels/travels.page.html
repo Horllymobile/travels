@@ -13,26 +13,37 @@
   <ion-grid>
     <ion-row>
       <ion-col size="12" sizeSm="6" offsetSm="3">
-        <ion-card *ngIf="travels?.length >= 1">
-          <ion-img class="ion-no-padding" [src]="travels[0].imageUrl"></ion-img>
+        <ion-card *ngIf="pinned">
+          <ion-img class="ion-no-padding" [src]="pinned?.imageUrl"></ion-img>
           <ion-card-content>
-            <ion-card-title slot="start"> {{ travels[0].location }} </ion-card-title>
-            <p class="ion-text-left"><em slot="end"> {{ travels[0].date | date }} </em></p>
-            <ion-card-subtitle>{{ travels[0].expenses | currency }}</ion-card-subtitle>
+            <ion-card-title slot="start"> {{ pinned?.location }} </ion-card-title>
+            <p class="ion-text-left"><em slot="end"> {{ pinned?.date | date }} </em></p>
+            <ion-card-subtitle>{{ pinned?.expenses | currency }}</ion-card-subtitle>
           </ion-card-content>
         </ion-card>
-        <h3 *ngIf="!travels?.length" class="ion-text-center create-new" routerLink="/dashboard/new">
-          Create new travels
-          <ion-icon color="primary" name="add"></ion-icon>
-        </h3>
+        <div *ngIf="online">
+          <h3 *ngIf="travels$ | async as travel" class="ion-text-center create-new" routerLink="/dashboard/new">
+            Create new travels
+            <ion-icon color="primary" name="add"></ion-icon>
+          </h3>
+        </div>
+        <div class="ion-text-center" *ngIf="!online">
+          <h3 class="create-new">
+            Check your internet settings
+          </h3>
+          <ion-button>
+            Settings
+            <ion-icon slot="end" name="settings"></ion-icon>
+          </ion-button>
+        </div>
       </ion-col>
     </ion-row>
 
     <ion-row>
-      <ion-col class="ion-padding" size="12" sizeSm="6" offsetSm="3" *ngIf="travels?.length >= 1">
-        <ion-item class="ion-margin-top" *ngFor="let travel of travels.slice(1)" detail>
+      <ion-col class="ion-padding" size="12" sizeSm="6" offsetSm="3" *ngIf="travels$ | async as travels">
+        <ion-item class="ion-margin-top" *ngFor="let travel of  travels.slice(1)" detail>
           <ion-thumbnail slot="start">
-            <ion-img [src]="travel.imageUrl"></ion-img>
+            <ion-img [src]="travel?.imageUrl"></ion-img>
           </ion-thumbnail>
           <ion-label>
             <h2 class="card-title">{{ travel.location }}</h2>

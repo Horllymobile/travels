@@ -1,8 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button (click)="back()" defaultHref="/dashboard/travels">
-      </ion-back-button>
+      <ion-back-button defaultHref="/dashboard/travels"></ion-back-button>
     </ion-buttons>
     <ion-title>Create new travel</ion-title>
   </ion-toolbar>
@@ -28,12 +27,12 @@
         </div>
 
         <form class="form" [formGroup]="createTravelForm">
-          <ion-item *ngIf="!imageChangedEvent" class="">
-            <label for="image" class="">
-              Upload Image
+          <div *ngIf="!imageChangedEvent" class="ion-text-center upload">
+            <label for="image" class="upload__label">
+              <ion-icon class="upload__icon" name="add"></ion-icon>
             </label>
             <input type="file" id="image" accept="image/*" formControlName="image" (change)="uploadImage($event)">
-          </ion-item>
+          </div>
 
           <ion-item class="ion-margin-top">
             <ion-input type="text" placeholder="Location" formControlName="location"></ion-input>

@@ -3,7 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { base64ToFile, Dimensions,ImageCroppedEvent, ImageTransform } from 'ngx-image-cropper';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Travel } from 'src/app/models/travel';
-import { LoadingController, AlertController, AlertButton } from '@ionic/angular';
+import { LoadingController, AlertController, AlertButton, Platform } from '@ionic/angular';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-new-travel',
   templateUrl: './new-travel.page.html',
@@ -28,17 +29,27 @@ export class NewTravelPage implements OnInit {
     private formBuilder: FormBuilder,
     private dataService: DataService,
     private loadingCtrl: LoadingController,
-    private alterCtrl: AlertController
-  ) { }
+    private alterCtrl: AlertController,
+    private platForm: Platform,
+    private router: Router
+  ) {
+    this.platForm.backButton.subscribeWithPriority(10, () => {
+      this.goHome();
+    });
+   }
 
   ngOnInit() {
     this.createTravelForm = this.formBuilder.group({
-      location: ['', [Validators.required, Validators.pattern(/\w*, \w*/g)]],
-      purpose: ['', [Validators.required, Validators.pattern(/\w*/g)]],
-      date: ['', [Validators.required]],
-      image: ['', [Validators.required]],
-      expenses: ['', [Validators.required]]
+      location: [null, [Validators.required, Validators.pattern(/\w*, \w*/g)]],
+      purpose: [null, [Validators.required, Validators.pattern(/\w*/g)]],
+      date: [null, [Validators.required]],
+      image: [null, [Validators.required]],
+      expenses: [null, [Validators.required]]
     });
+  }
+
+  goHome() {
+    this.router.navigate(['/', 'dashboard', 'travels']);
   }
 
   async createTravel(){
@@ -58,6 +69,7 @@ export class NewTravelPage implements OnInit {
         date: this.createTravelForm.get('date').value,
         expenses: this.createTravelForm.get('expenses').value,
         imageUrl: this.croppedImage,
+        pinned: false
       };
       const res = await this.dataService.createTravel(travel);
       this.loader.dismiss().then(() => {
@@ -109,8 +121,6 @@ export class NewTravelPage implements OnInit {
     console.log('Load Image Fail');
   }
 
-  back(){
-
-  }
+  back(){}
 
 }
